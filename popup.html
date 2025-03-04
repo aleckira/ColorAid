@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ColorAid</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 320px;
+      padding: 15px;
+      color: #333;
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: #3366CC;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    h2 {
+      font-size: 1rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .option:hover {
+      background-color: #f5f5f5;
+    }
+    .option input {
+      margin-right: 10px;
+    }
+    .option-label {
+      display: flex;
+      flex-direction: column;
+    }
+    .option-name {
+      font-weight: 500;
+    }
+    .option-description {
+      font-size: 0.8rem;
+      color: #777;
+    }
+    .slider-container {
+      margin: 15px 0;
+    }
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+    .slider {
+      width: 100%;
+      margin-top: 5px;
+    }
+    .color-mapping {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .color-input {
+      margin-right: 10px;
+    }
+    .tabs {
+      display: flex;
+      margin-top: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .tab {
+      padding: 8px 15px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-bottom: none;
+      margin-bottom: -1px;
+      background-color: transparent;
+    }
+    .tab.active {
+      border-color: #ddd;
+      border-radius: 5px 5px 0 0;
+      background-color: #f8f8f8;
+    }
+    .tab-content {
+      display: none;
+      padding: 15px 0;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    button {
+      margin-top: 15px;
+      padding: 8px 12px;
+      background-color: #3366CC;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #2855b0;
+    }
+    .reset {
+      background-color: #f5f5f5;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    .reset:hover {
+      background-color: #e5e5e5;
+    }
+    .footer {
+      margin-top: 15px;
+      font-size: 0.8rem;
+      color: #999;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>ColorAid</h1>
+  
+  <div class="tabs">
+    <button class="tab active" data-tab="presets">Presets</button>
+    <button class="tab" data-tab="adjust">Adjust</button>
+    <button class="tab" data-tab="customize">Customize</button>
+  </div>
+  
+  <div id="presets" class="tab-content active">
+    <div class="container">
+      <div class="option">
+        <input type="radio" id="normal" name="colorblindType" value="normal" checked>
+        <div class="option-label">
+          <span class="option-name">Normal Vision</span>
+          <span class="option-description">No color adjustments</span>
+        </div>
+      </div>
+      <div class="option">
+        <input type="radio" id="protanopia" name="colorblindType" value="protanopia">
+        <div class="option-label">
+          <span class="option-name">Protanopia</span>
+          <span class="option-description">Enhances colors for red blindness</span>
+        </div>
+      </div>
+      <div class="option">
+        <input type="radio" id="deuteranopia" name="colorblindType" value="deuteranopia">
+        <div class="option-label">
+          <span class="option-name">Deuteranopia</span>
+          <span class="option-description">Enhances colors for green blindness</span>
+        </div>
+      </div>
+      <div class="option">
+        <input type="radio" id="tritanopia" name="colorblindType" value="tritanopia">
+        <div class="option-label">
+          <span class="option-name">Tritanopia</span>
+          <span class="option-description">Enhances colors for blue blindness</span>
+        </div>
+      </div>
+      <div class="option">
+        <input type="radio" id="achromatopsia" name="colorblindType" value="achromatopsia">
+        <div class="option-label">
+          <span class="option-name">Achromatopsia</span>
+          <span class="option-description">Enhances contrast for complete color blindness</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="adjust" class="tab-content">
+    <h2>Contrast &amp; Brightness</h2>
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Contrast:</span>
+        <span id="contrastValue">1.0</span>
+      </div>
+      <input type="range" id="contrastSlider" class="slider" min="0.5" max="2.0" step="0.1" value="1.0">
+    </div>
+    
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Brightness:</span>
+        <span id="brightnessValue">1.0</span>
+      </div>
+      <input type="range" id="brightnessSlider" class="slider" min="0.5" max="1.5" step="0.1" value="1.0">
+    </div>
+    
+    <h2>Color Intensity</h2>
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Red Enhancement:</span>
+        <span id="redEnhanceValue">1.0</span>
+      </div>
+      <input type="range" id="redEnhanceSlider" class="slider" min="0.5" max="1.5" step="0.1" value="1.0">
+    </div>
+    
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Green Enhancement:</span>
+        <span id="greenEnhanceValue">1.0</span>
+      </div>
+      <input type="range" id="greenEnhanceSlider" class="slider" min="0.5" max="1.5" step="0.1" value="1.0">
+    </div>
+    
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Blue Enhancement:</span>
+        <span id="blueEnhanceValue">1.0</span>
+      </div>
+      <input type="range" id="blueEnhanceSlider" class="slider" min="0.5" max="1.5" step="0.1" value="1.0">
+    </div>
+  </div>
+  
+  <div id="customize" class="tab-content">
+    <h2>Custom Color Mapping</h2>
+    <p class="option-description">Replace problematic colors with more visible ones</p>
+    
+    <div class="color-mapping">
+      <input type="color" id="sourceColor1" class="color-input" value="#FF0000">
+      <span>→</span>
+      <input type="color" id="targetColor1" class="color-input" value="#00FF00">
+      <button class="reset" id="removeMapping1">×</button>
+    </div>
+    
+    <div class="color-mapping">
+      <input type="color" id="sourceColor2" class="color-input" value="#0000FF">
+      <span>→</span>
+      <input type="color" id="targetColor2" class="color-input" value="#FFFF00">
+      <button class="reset" id="removeMapping2">×</button>
+    </div>
+    
+    <button id="addColorMapping">+ Add Color Mapping</button>
+  </div>
+  
+  <button id="apply">Apply Changes</button>
+  <button id="reset" class="reset">Reset All Settings</button>
+  
+  <div class="footer">
+    ColorAid enhances web content for people with color vision deficiencies
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 
